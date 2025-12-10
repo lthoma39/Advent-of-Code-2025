@@ -3,7 +3,7 @@ function validateIDs(ids: string[]): number {
     let count: number = 0;
 
     ids.forEach( (id) => {
-        {
+        
             let [start, end]: number[] = id.split("-").map(Number);   
 
             for (let i = start; i <= end; i++){
@@ -23,7 +23,6 @@ function validateIDs(ids: string[]): number {
                     }
                 }
             }
-        }
     });
     
     return count;
