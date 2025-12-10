@@ -31,11 +31,11 @@ function enableBatteriesSlow(bank: string): number{
 // Optimized version with O(n) complexity but only handles two batteries
 function enableBatteriesFast(bank: string): number {
 
-    let firstBulb = 0;
-    let secondBulb = 0;
+    let firstBulb: number = 0;
+    let secondBulb: number = 0;
 
     for (let i = 0; i < bank.length - 1; i++){
-        let bulbValue = Number(bank[i]);
+        let bulbValue: number = Number(bank[i]);
 
         if (bulbValue > firstBulb){
             firstBulb = bulbValue;
@@ -60,8 +60,8 @@ function enableBatteries(bank: string, batteriesToEnable: number = 2): number {
 
     for (let i = 0; i < bank.length; i++) {
 
-        let currentBulb = Number(bank[i]);
-        let spaceLeft = bank.length - i - 1;
+        let currentBulb: number = Number(bank[i]);
+        let spaceLeft: number = bank.length - i - 1;
 
         //effectively checks if we can still fill the stack to the required size
         while (!bulbs.isEmpty() && (bulbs.peek() ?? -1) < currentBulb && (spaceLeft + bulbs.size() >= batteriesToEnable)) {
