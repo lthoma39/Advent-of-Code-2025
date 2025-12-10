@@ -93,18 +93,13 @@ function calculateJoltage(){
     try {
         const data = fs.readFileSync('input3.txt', 'utf8');
         const lines = data.split('\n');
-
         let voltage: number = 0;
-        let voltageFast: number = 0;
     
         for (const line of lines){
-            voltage += enableBatteriesFast(line.trim()); //17432
-            voltageFast += enableBatteries(line.trim(), 12); //17432
-
+            voltage += enableBatteries(line.trim(), 12);
         }
 
         console.log(voltage);
-        console.log(voltageFast);
     }
     catch (err) {
         console.error(err);
