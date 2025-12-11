@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 interface instruction {
     direction: string;
     steps: number;
@@ -26,30 +28,22 @@ function crackCode(instructions: instruction[]): number {
 
 function main(): void{
 
-    let fakeInstructions: string[] = [
-        "L68",
-        "L30",
-        "R48",
-        "L5",
-        "R60",
-        "L55",
-        "L1",
-        "L99",
-        "R14",
-        "L82",
-    ];
+    try {
+            const instructionOrders: string[] = fs.readFileSync('input1.txt', 'utf8').split('\n');
 
-    let instructions: instruction[] = fakeInstructions.map(
-        (instruction): instruction => {
-            return {
-                direction: instruction.charAt(0),
-                steps: parseInt(instruction.slice(1))
-            };
+            let instructions: instruction[] = instructionOrders.map(
+                (instruction): instruction => {
+                    return {
+                        direction: instruction.charAt(0),
+                        steps: parseInt(instruction.slice(1))
+                    };
+                }
+            );
+            console.log(crackCode(instructions));
         }
-    );
-
-    console.log(crackCode(instructions));
-
+        catch (err) {
+            console.error(err);
+    }
 }
 
 main();
