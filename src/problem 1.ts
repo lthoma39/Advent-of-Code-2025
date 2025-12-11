@@ -5,6 +5,32 @@ interface instruction {
     steps: number;
 }
 
+function crackSecondaryCode(instructions: instruction[]): number {
+
+    let count: number = 0;
+    let position: number = 50;
+    
+    instructions.forEach(
+        (instruction) => {
+            if (instruction.direction === "R") {
+                position = (position + instruction.steps);
+
+                if (position >= 100) { count++ }
+
+                position = position % 100;
+            }
+            else if (instruction.direction === "L") {
+                position = (position - instruction.steps);
+                
+                if (position <= 0) { count++ }
+
+                position = (position + 100) % 100;
+            }
+    });
+
+    return count;
+}
+
 function crackCode(instructions: instruction[]): number {
 
     let count: number = 0;
@@ -40,6 +66,7 @@ function main(): void{
                 }
             );
             console.log(crackCode(instructions));
+            console.log(crackSecondaryCode(instructions));
         }
         catch (err) {
             console.error(err);
