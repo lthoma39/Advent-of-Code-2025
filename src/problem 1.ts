@@ -13,18 +13,15 @@ function crackSecondaryCode(instructions: instruction[]): number {
         const steps = inst.steps;
 
         if (inst.direction === "R") {
-            // How many times zero is passed
+        
             count += Math.floor((position + steps) / 100);
           
             position = (position + steps) % 100;
         } 
-        else { // "L"
-            // Convert left move to negative steps modulo 100
-            let newPos = (position - steps + 1000) % 100; 
-           
+        else { 
             count += Math.floor((steps - 1 - position) / 100) + 1;
            
-            position = newPos;
+            position = (position - steps + 1000) % 100;
         }
     }
 
