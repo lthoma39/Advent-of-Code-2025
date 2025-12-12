@@ -9,13 +9,18 @@ function validateIDs(ids: string[]): number {
             for (let i = start; i <= end; i++){
                 
                 let idStr: string = i.toString();
-                let idStrDouble: string = idStr + idStr;
 
-                idStrDouble = idStrDouble.slice(1, -1);
+                if (idStr.length % 2 !== 0) {
+                    continue;
+                }
+                else {
+                    let strLeft: string = idStr.slice(0, Math.floor(idStr.length / 2));
+                    let strRight: string = idStr.slice(Math.ceil(idStr.length / 2));
 
-                if (idStrDouble.includes(idStr)) {
-                    console.log(`Invalid ID found: ${idStr} in range ${start}-${end}`);
-                    count += Number(idStr);
+                    if (strLeft === strRight) {
+                        console.log(`Invalid ID found: ${idStr} in range ${start}-${end}`);
+                        count += Number(idStr);
+                    }
                 }
             }
         }
