@@ -1,6 +1,6 @@
 //Creating a file for data structures not built in to JavaScript/TypeScript
 
-interface IStack<T> {
+interface Stack<T> {
     push(item: T): void;
     pop(): T | undefined;
     peek(): T | undefined;
@@ -8,7 +8,7 @@ interface IStack<T> {
     size(): number;
 }
 
-export class Stack<T> implements IStack<T> {
+export class ArrayStack<T> implements Stack<T> {
     private stack: T[] = [];
 
     constructor(){} 
