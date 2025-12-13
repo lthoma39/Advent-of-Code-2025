@@ -1,7 +1,7 @@
 //https://adventofcode.com/2025/day/3
 //Solution for Day 3 Part 1
 import fs from 'fs';
-import { ArrayStack } from './DataStructures';
+import { Stack } from './DataStructures';
 
 //This only handles one string at a time and is checking adjacent i and j pairs leading to O(n^2). Could be optimized to O(n) by tracking the two largest digits while iterating through the string once.
 function enableBatteriesSlow(bank: string): number{
@@ -56,7 +56,7 @@ function enableBatteriesFast(bank: string): number {
 //new battery method but we ask for number of batteries to enable  and create a stack and start calculating from there
 function enableBatteries(bank: string, batteriesToEnable: number = 2): number {
 
-    let bulbs: ArrayStack<number> = new ArrayStack<number>();
+    let bulbs: Stack<number> = new Stack<number>();
 
     for (let i = 0; i < bank.length; i++) {
 
