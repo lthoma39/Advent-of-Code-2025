@@ -4,7 +4,7 @@ function validateIDs(ids: string[]): number {
 
     ids.forEach( (id) => {
         
-            let [start, end]: number[] = id.split("-").map(Number);   
+            let [start, end]: number[] = id.split("-").map(x => Number(x));   
 
             for (let i = start; i <= end; i++){
                 
@@ -14,8 +14,8 @@ function validateIDs(ids: string[]): number {
                     continue;
                 }
                 else {
-                    let strLeft: string = idStr.slice(0, Math.floor(idStr.length / 2));
-                    let strRight: string = idStr.slice(Math.ceil(idStr.length / 2));
+                    let strLeft: string = idStr.slice(0, idStr.length / 2);
+                    let strRight: string = idStr.slice(idStr.length / 2);
 
                     if (strLeft === strRight) {
                         console.log(`Invalid ID found: ${idStr} in range ${start}-${end}`);
