@@ -35,12 +35,18 @@ export class Stack<T> implements IStack<T> {
 
 export class Grid<T> implements IGrid<T> {
 
-    constructor(private grid: T[][], private rows: number, private cols: number) {
+    private rows: number;
+    private cols: number;
+
+    constructor(private grid: T[][]) {
         this.grid = grid;
+        this.rows = this.grid.length;
+        this.cols = this.grid[0].length;
     }
-    getRows(): number { return this.rows;}
+
+    getRows(): number { return this.rows; }
     
-    getCols(): number {return this.cols; }
+    getCols(): number { return this.cols; }
 
     isOutOfBounds(currentRow: number, currentCol: number): boolean {
 
@@ -49,7 +55,8 @@ export class Grid<T> implements IGrid<T> {
         const ROW_MAX: number = this.rows - 1;
         const COL_MAX: number = this.cols - 1;
 
-        return currentRow >= ROW_MIN && currentRow <= ROW_MAX && currentCol >= COL_MIN && currentCol <= COL_MAX;
+        //negation since im checking the ranges within and function is called "is out of bounds"
+        return !(currentRow >= ROW_MIN && currentRow <= ROW_MAX && currentCol >= COL_MIN && currentCol <= COL_MAX);
     }
 
     getCell(currentRow: number, currentCol: number): T | undefined { 
@@ -70,15 +77,15 @@ export class Grid<T> implements IGrid<T> {
             count++;
         }
         //up
-        else if(!this.isOutOfBounds(currentRow - 1, currentCol) && this.grid[currentRow - 1][currentCol] === target){
+        if(!this.isOutOfBounds(currentRow - 1, currentCol) && this.grid[currentRow - 1][currentCol] === target){
             count++;
         }
         //top right
-        else if (!this.isOutOfBounds(currentRow - 1, currentCol + 1) && this.grid[currentRow - 1][currentCol + 1] === target) {
+        if (!this.isOutOfBounds(currentRow - 1, currentCol + 1) && this.grid[currentRow - 1][currentCol + 1] === target) {
             count++;
         }
         //left
-        else if(!this.isOutOfBounds(currentRow, currentCol - 1) && this.grid[currentRow][currentCol - 1] === target){
+        if (!this.isOutOfBounds(currentRow, currentCol - 1) && this.grid[currentRow][currentCol - 1] === target){
             count++;
         }
         //right
@@ -86,18 +93,17 @@ export class Grid<T> implements IGrid<T> {
             count++;
         }
         //bottom left
-        else if(!this.isOutOfBounds(currentRow + 1, currentCol - 1) && this.grid[currentRow + 1][currentCol - 1] === target){
+        if (!this.isOutOfBounds(currentRow + 1, currentCol - 1) && this.grid[currentRow + 1][currentCol - 1] === target){
             count++;
         }
         //bottom
-        else if (!this.isOutOfBounds(currentRow + 1, currentCol) && this.grid[currentRow + 1][currentCol] === target) {
+        if (!this.isOutOfBounds(currentRow + 1, currentCol) && this.grid[currentRow + 1][currentCol] === target) {
             count++;
         }
         //bottom right
-        else if(!this.isOutOfBounds(currentRow + 1, currentCol + 1) && this.grid[currentRow + 1][currentCol + 1] === target){
+        if(!this.isOutOfBounds(currentRow + 1, currentCol + 1) && this.grid[currentRow + 1][currentCol + 1] === target){
             count++;
         }
         return count;
     }
-
 }
