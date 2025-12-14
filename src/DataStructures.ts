@@ -1,4 +1,5 @@
 //Creating a file for data structures not built in to JavaScript/TypeScript
+import  fs  from 'fs';
 
 interface IStack<T> {
     push(item: T): void;
@@ -8,12 +9,14 @@ interface IStack<T> {
     size(): number;
 }
 
-interface IGrid<T> {
+interface IGrid{
+    buildGrid(filepath: string): string[][];
     getRows(): number;
     getCols(): number;
     isOutOfBounds(row: number, col :number): boolean;
-    getCell(row: number, col: number): T | undefined;
-    countMatchingNeighbors(row: number, cel: number, target: T): number;
+    getCell(row: number, col: number): string | undefined;
+    markCell(row: number, col: number, marker: string): void;
+    countMatchingNeighbors(row: number, cel: number, target: string): number;
 }
 
 export class Stack<T> implements IStack<T> {
@@ -33,15 +36,40 @@ export class Stack<T> implements IStack<T> {
     push(val: T): void { this.stack.push(val); }
 }
 
-export class Grid<T> implements IGrid<T> {
+export class Grid implements IGrid{
 
+    private grid: string[][];
     private rows: number;
     private cols: number;
 
-    constructor(private grid: T[][]) {
-        this.grid = grid;
+
+    constructor(filepath: string) {
+        this.grid = this.buildGrid(filepath);
         this.rows = this.grid.length;
         this.cols = this.grid[0].length;
+    }
+
+    buildGrid(filepath: string): string[][]{
+    
+        let gridResult: string[][] = [];
+    
+        try{
+            let gridFile: string[] = fs.readFileSync(filepath, 'utf8').split('\n');
+    
+            if (gridFile.length === 0) { return []; }
+    
+            for (const gridLine of gridFile){
+    
+                let tempRow: string[] = gridLine.split(''); 
+    
+                gridResult.push(tempRow);
+            }
+        }
+        catch (err){
+            console.log(err)
+        }
+    
+        return gridResult; 
     }
 
     getRows(): number { return this.rows; }
@@ -59,7 +87,7 @@ export class Grid<T> implements IGrid<T> {
         return !(currentRow >= ROW_MIN && currentRow <= ROW_MAX && currentCol >= COL_MIN && currentCol <= COL_MAX);
     }
 
-    getCell(currentRow: number, currentCol: number): T | undefined { 
+    getCell(currentRow: number, currentCol: number): string | undefined { 
 
         if (!this.isOutOfBounds(currentRow, currentCol)) { 
             return this.grid[currentRow][currentCol]; 
@@ -68,7 +96,13 @@ export class Grid<T> implements IGrid<T> {
         return undefined;
     }
 
-    countMatchingNeighbors(currentRow: number, currentCol: number, target: T): number {
+    markCell(currentRow: number, currentCol: number, marker: string = 'x'): void {
+        if (!this.isOutOfBounds(currentRow, currentCol)) {
+            this.grid[currentRow][currentCol] = marker;
+        }
+    }
+
+    countMatchingNeighbors(currentRow: number, currentCol: number, target: string): number {
 
         let count: number = 0;
 

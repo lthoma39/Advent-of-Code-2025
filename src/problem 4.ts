@@ -1,32 +1,8 @@
-import { Grid } from './DataStructures'
-import  fs  from 'fs'
-
-function buildGrid(filepath: string): string[][]{
-
-    let gridResult: string[][] = [];
-
-    try{
-        let gridFile: string[] = fs.readFileSync(filepath, 'utf8').split('\n');
-
-        if (gridFile.length === 0) { return []; }
-
-        for (const gridLine of gridFile){
-
-            let tempRow: string[] = gridLine.split(''); 
-
-            gridResult.push(tempRow);
-        }
-    }
-    catch (err){
-        console.log(err)
-    }
-
-    return gridResult; 
-}
+import { Grid } from './DataStructures';
 
 function main(): void {
 
-    let grid: Grid<string> = new Grid<string>(buildGrid('../data/input4.txt'));
+    let grid: Grid = new Grid('../data/input4.txt');
 
     let toiletPaper: number = 0;
 
@@ -35,6 +11,7 @@ function main(): void {
 
             if (grid.getCell(x, y) === '@' && grid.countMatchingNeighbors(x, y, '@') < 4){
                 toiletPaper++;
+                //grid.markCell(x, y); //check neighbors for updates...
             }
         }
     }
