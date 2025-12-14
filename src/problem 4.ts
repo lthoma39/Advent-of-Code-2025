@@ -12,9 +12,9 @@ function buildGrid(filepath: string): string[][]{
 
         for (const gridLine of gridFile){
 
-            let tempRowCount = 0;
+            let tempRow: string[] = gridLine.split(''); 
 
-            
+            gridResult.push(tempRow);
         }
     }
     catch (err){
@@ -26,21 +26,7 @@ function buildGrid(filepath: string): string[][]{
 
 function main(): void {
 
-    const gridArr: string[][] = 
-    [
-        ['.', '.', '@', '@', '.', '@', '@', '@', '@', '.'],
-        ['@', '@', '@', '.', '@', '.', '@', '.', '@', '@'],
-        ['@', '@', '@', '@', '@', '.', '@', '.', '@', '@'],
-        ['@', '.', '@', '@', '@', '@', '.', '.', '@', '.'],
-        ['@', '@', '.', '@', '@', '@', '@', '.', '@', '@'],
-        ['.', '@', '@', '@', '@', '@', '@', '@', '.', '@'],
-        ['.', '@', '.', '@', '.', '@', '.', '@', '@', '@'],
-        ['@', '.', '@', '@', '@', '.', '@', '@', '@', '@'],
-        ['.', '@', '@', '@', '@', '@', '@', '@', '@', '.'],
-        ['@', '.', '@', '.', '@', '@', '@', '.', '@', '.'],
-    ];
-
-    let grid: Grid<string> = new Grid<string>(gridArr);
+    let grid: Grid<string> = new Grid<string>(buildGrid('../data/input4.txt'));
 
     let toiletPaper: number = 0;
 

@@ -91,7 +91,7 @@ function enableBatteries(bank: string, batteriesToEnable: number = 2): number {
 
 function calculateJoltage(){
     try {
-        const data : string = fs.readFileSync('input3.txt', 'utf8');
+        const data : string = fs.readFileSync('../data/input3.txt', 'utf8');
         const lines: string[] = data.split('\n');
         let voltage: number = 0;
     

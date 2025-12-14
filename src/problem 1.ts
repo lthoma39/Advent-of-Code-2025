@@ -59,7 +59,7 @@ function crackCode(instructions: Instruction[]): number {
 function main(): void{
 
     try {
-            const instructionOrders: string[] = fs.readFileSync('input1.txt', 'utf8').split('\n');
+            const instructionOrders: string[] = fs.readFileSync('../data/input1.txt', 'utf8').split('\n');
             const instructionOrders2: string[] = ["L68", "L30", "R48", "L5", "R60", "L55", "L1", "L99", "R14", "L82"];
             
             let instructions: Instruction[] = instructionOrders.map(

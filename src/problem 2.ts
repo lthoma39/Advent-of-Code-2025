@@ -34,7 +34,7 @@ function main(): void {
     ];
 
     try {
-        const ids: string[] = fs.readFileSync('input2.txt', 'utf8').split(',');
+        const ids: string[] = fs.readFileSync('../data/input2.txt', 'utf8').split(',');
 
         let validCount: number = validateIDs(ids);
         console.log(validCount);
