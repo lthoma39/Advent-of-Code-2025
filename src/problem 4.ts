@@ -1,4 +1,28 @@
 import { Grid } from './DataStructures'
+import  fs  from 'fs'
+
+function buildGrid(filepath: string): string[][]{
+
+    let gridResult: string[][] = [];
+
+    try{
+        let gridFile: string[] = fs.readFileSync(filepath, 'utf8').split('\n');
+
+        if (gridFile.length === 0) { return []; }
+
+        for (const gridLine of gridFile){
+
+            let tempRowCount = 0;
+
+            
+        }
+    }
+    catch (err){
+        console.log(err)
+    }
+
+    return gridResult; 
+}
 
 function main(): void {
 
