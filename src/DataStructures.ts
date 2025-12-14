@@ -42,21 +42,62 @@ export class Grid<T> implements IGrid<T> {
     
     getCols(): number {return this.cols; }
 
-    isOutOfBounds(row: number, col: number): boolean {
-        return false; // WIP
+    isOutOfBounds(currentRow: number, currentCol: number): boolean {
+
+        const ROW_MIN: number = 0;
+        const COL_MIN: number = 0;
+        const ROW_MAX: number = this.rows - 1;
+        const COL_MAX: number = this.cols - 1;
+
+        return currentRow >= ROW_MIN && currentRow <= ROW_MAX && currentCol >= COL_MIN && currentCol <= COL_MAX;
     }
 
-    getCell(row: number, cel: number): T | undefined { 
+    getCell(currentRow: number, currentCol: number): T | undefined { 
 
-        if (!this.isOutOfBounds(row, cel)) { 
-            return this.grid[row][cel]; 
+        if (!this.isOutOfBounds(currentRow, currentCol)) { 
+            return this.grid[currentRow][currentCol]; 
         }
         
         return undefined;
     }
 
-    countMatchingNeighbors(row: number, cel: number, target: T): number {
-        return 0; // WIP
+    countMatchingNeighbors(currentRow: number, currentCol: number, target: T): number {
+
+        let count: number = 0;
+
+        //top left
+        if (!this.isOutOfBounds(currentRow - 1, currentCol - 1) && this.grid[currentRow - 1][currentCol - 1] === target) {
+            count++;
+        }
+        //up
+        else if(!this.isOutOfBounds(currentRow - 1, currentCol) && this.grid[currentRow - 1][currentCol] === target){
+            count++;
+        }
+        //top right
+        else if (!this.isOutOfBounds(currentRow - 1, currentCol + 1) && this.grid[currentRow - 1][currentCol + 1] === target) {
+            count++;
+        }
+        //left
+        else if(!this.isOutOfBounds(currentRow, currentCol - 1) && this.grid[currentRow][currentCol - 1] === target){
+            count++;
+        }
+        //right
+        if (!this.isOutOfBounds(currentRow, currentCol + 1) && this.grid[currentRow][currentCol + 1] === target) {
+            count++;
+        }
+        //bottom left
+        else if(!this.isOutOfBounds(currentRow + 1, currentCol - 1) && this.grid[currentRow + 1][currentCol - 1] === target){
+            count++;
+        }
+        //bottom
+        else if (!this.isOutOfBounds(currentRow + 1, currentCol) && this.grid[currentRow + 1][currentCol] === target) {
+            count++;
+        }
+        //bottom right
+        else if(!this.isOutOfBounds(currentRow + 1, currentCol + 1) && this.grid[currentRow + 1][currentCol + 1] === target){
+            count++;
+        }
+        return count;
     }
 
 }
