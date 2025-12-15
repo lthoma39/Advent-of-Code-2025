@@ -8,7 +8,7 @@ function doHomework(mathProblems: Stack<string>[]): number {
 
     for (const problem of mathProblems){
 
-        const op = problem.pop();
+        const op: string | undefined = problem.pop();
 
         if (op === '*'){
             tempResult = 1;
@@ -29,6 +29,37 @@ function doHomework(mathProblems: Stack<string>[]): number {
     }
 
     return result;
+}
+
+function redoHomework(mathProblems: Stack<string>[]): number {
+
+    for (const problem of mathProblems){
+
+        const op: string | undefined = problem.pop();
+
+        let questions: string[] = [];
+        let maxLenStr: number = 0;
+        let revisedMathProblems: Stack<string>[] = [];
+
+        while(!problem.isEmpty()){
+            let question: string = problem.pop() as string;
+            maxLenStr = question.length > maxLenStr ? question.length : maxLenStr;
+            questions.push(question);
+        }
+
+        for (let i = 0; i < maxLenStr; i++){
+            revisedMathProblems.push(new Stack<string>());
+        }
+
+        for (const question of questions){
+            for (let i = 0; i < question.length; i++){
+                revisedMathProblems[i].push(question[i]);
+            }
+        }
+        console.log(revisedMathProblems);
+    }
+
+    return 0;
 }
 
 function main(): void {
@@ -54,7 +85,7 @@ function main(): void {
         }
     }
 
-    console.log(doHomework(homework));
+    console.log(redoHomework(homework));
 }
 
 main();
