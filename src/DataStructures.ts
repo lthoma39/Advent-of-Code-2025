@@ -1,7 +1,7 @@
 //Creating a file for data structures not built in to JavaScript/TypeScript
 import  fs  from 'fs';
 
-interface IStack<T> {
+export interface IStack<T> {
     push(item: T): void;
     pop(): T | undefined;
     peek(): T | undefined;
@@ -9,14 +9,11 @@ interface IStack<T> {
     size(): number;
 }
 
-interface IGrid{
+export interface IGrid{
     buildGrid(filepath: string): string[][];
     getRows(): number;
     getCols(): number;
     isOutOfBounds(row: number, col :number): boolean;
-    getCell(row: number, col: number): string | undefined;
-    markCell(row: number, col: number, marker: string): void;
-    countMatchingNeighbors(row: number, cel: number, target: string): number;
 }
 
 export class Stack<T> implements IStack<T> {
