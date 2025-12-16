@@ -31,61 +31,90 @@ function doHomework(mathProblems: Stack<string>[]): number {
     return result;
 }
 
-function redoHomework(mathProblems: Stack<string>[]): number {
+function evaluteProblem(question: string[]): number {
 
-    for (const problem of mathProblems){
+    const op: string = question[0][(question[0].length - 1)];
+    
+    question[0] = question[0].slice(0, -1);
 
-        const op: string | undefined = problem.pop();
+    let result: number;
 
-        let questions: string[] = [];
-        let maxLenStr: number = 0;
-        let revisedMathProblems: Stack<string>[] = [];
+    if (op === '*'){
 
-        while(!problem.isEmpty()){
-            let question: string = problem.pop() as string;
-            maxLenStr = question.length > maxLenStr ? question.length : maxLenStr;
-            questions.push(question);
-        }
+        result = 1;
 
-        for (let i = 0; i < maxLenStr; i++){
-            revisedMathProblems.push(new Stack<string>());
-        }
-
-        for (const question of questions){
-            for (let i = 0; i < question.length; i++){
-                revisedMathProblems[i].push(question[i]);
+        for (const number of question){
+            if (number !== op){
+                result *= Number(number);
             }
         }
-        console.log(revisedMathProblems);
+    }
+    else if (op === '+') {
+        result = 0;
+
+        for (const number of question){
+            if (number !== op){
+                result += Number(number);
+            }
+        }
+    }
+    else {
+        console.log("something went wrong here");
+        result = -1;
+    }
+    return result;
+}
+
+function redoHomework(fileData: string[]): number {
+
+    let fileGrid: string[][] = [];
+    let result: number = 0;
+
+   for (const [rowCount, line] of fileData.entries()){
+        fileGrid[rowCount] = [];
+
+        for (let colCount = 0; colCount < line.length; colCount++){
+            fileGrid[rowCount].push(line[colCount]);
+        }
     }
 
-    return 0;
+    //time to build each math number and also check for nothing but space col. iterate over the cols
+    let problem: string[] = [];
+    let isAllSpaces: boolean; ; //check if we encounter a column of spaces. that indicates we found the end
+
+    for (let col = 0; col < fileData[0].length; col++){
+
+        let str: string = "";
+        isAllSpaces = true;
+
+        for (let row = 0; row < fileData.length; row++){
+            const char: string = fileGrid[row][col];
+
+            if (col >= fileGrid[row].length) { continue; }
+
+            if (char !== ' ' && char !== '\r'){
+                isAllSpaces = false;
+                str += char;
+            }
+        }
+
+        if (isAllSpaces){
+            //evaluate
+            isAllSpaces = true;
+            result += evaluteProblem(problem);
+            problem = [];
+        }
+        else{
+            problem.push(str);
+        }
+        str = "";   
+    }
+
+    return result;
 }
 
 function main(): void {
-
-    let data: string[] = fs.readFileSync('../data/input6.txt', 'utf8').split('\n');
-    data = data.map(fileLine => fileLine.trim());
-
-    let homework: Stack<string>[] = [];
-
-    for (const line of data){
-
-        let homeworkLine: string[] = line.split(" ")
-            .map(str => str.trim())
-            .filter(str => str.length > 0);
-
-        for (let i = 0; i < homeworkLine.length; i++){
-
-            if (homework.length <= i){
-                homework.push(new Stack<string>());
-            }
-
-            homework[i].push(homeworkLine[i]);
-        }
-    }
-
-    console.log(redoHomework(homework));
+    console.log(redoHomework(fs.readFileSync('../data/input6.txt', 'utf8').split('\n')));
 }
 
 main();
