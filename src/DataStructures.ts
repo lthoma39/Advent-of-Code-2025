@@ -10,10 +10,16 @@ export interface IStack<T> {
 }
 
 export interface IGrid{
-    buildGrid(filepath: string): string[][];
+    buildGrid(filepath: string, splitter: string, isRegEx: boolean): string[][];
     getRows(): number;
     getCols(): number;
     isOutOfBounds(row: number, col :number): boolean;
+}
+
+export interface IQueue<T> {
+    add(val: T): void;
+    pop(): T | undefined;
+    isEmpty(): boolean;
 }
 
 export class Stack<T> implements IStack<T> {
@@ -35,23 +41,26 @@ export class Stack<T> implements IStack<T> {
 
 export class Grid implements IGrid{
 
-    private grid: string[][];
-    private rows: number;
-    private cols: number;
+    protected grid: string[][];
+    protected rows: number;
+    protected cols: number;
 
 
-    constructor(filepath: string) {
-        this.grid = this.buildGrid(filepath);
+    constructor(filepath: string, splitter: string = '\n', isRegEx: boolean = false) {
+        this.grid = this.buildGrid(filepath, splitter, isRegEx);
         this.rows = this.grid.length;
         this.cols = this.grid[0].length;
     }
 
-    buildGrid(filepath: string): string[][]{
+    buildGrid(filepath: string, splitter: string, isRegEx: boolean): string[][]{
     
         let gridResult: string[][] = [];
     
         try{
-            let gridFile: string[] = fs.readFileSync(filepath, 'utf8').split('\n');
+            
+            let gridFile: string[] = isRegEx ?
+                fs.readFileSync(filepath, 'utf8').split(new RegExp(splitter)):
+                fs.readFileSync(filepath, 'utf8').split(splitter) ;
     
             if (gridFile.length === 0) { return []; }
     
@@ -137,4 +146,15 @@ export class Grid implements IGrid{
         }
         return count;
     }
+}
+
+export class Queue<T> implements IQueue<T> {
+
+    constructor(private queue: T[] = []){}
+
+    add(val: T): void { this.queue.push(val); }
+
+    pop(): T | undefined { return this.queue.shift(); }
+
+    isEmpty(): boolean { return this.queue.length === 0; }
 }

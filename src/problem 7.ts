@@ -1,62 +1,44 @@
 import fs from 'fs';
-import { IGrid } from './DataStructures';
+import { Grid, Queue } from './DataStructures';
 
-class grid implements IGrid {
-    buildGrid(filepath: string): string[][] {
-        throw new Error('Method not implemented.');
-    }
-    getRows(): number {
-        throw new Error('Method not implemented.');
-    }
-    getCols(): number {
-        throw new Error('Method not implemented.');
-    }
-    isOutOfBounds(row: number, col: number): boolean {
-        throw new Error('Method not implemented.');
-    }
-    getCell(row: number, col: number): string | undefined {
-        throw new Error('Method not implemented.');
-    }
-    markCell(row: number, col: number, marker: string): void {
-        throw new Error('Method not implemented.');
-    }
-    countMatchingNeighbors(row: number, cel: number, target: string): number {
-        throw new Error('Method not implemented.');
-    }
-}
+type Point = [x: number, y: number];
 
-function isOutOfBounds(): boolean {
 
-    return false;
-}
+class GridGraph extends Grid {
 
-function countSplits(row: number, col: number, numSplits: {value: number}): number {
+    private q: Queue<Point> = new Queue<Point>();
 
-    return 0;
-}
+    constructor(filepath: string, splitter: string = '\n', isRegEx: boolean = false){
 
-function  buildGrid(file: string[]): string[][] {
+        super(filepath, splitter, isRegEx);
 
-    let grid: string[][] = [];
-
-    for (const line of file){
-        grid.push([]);
-        for (const char of line){
-            grid[grid.length - 1].push(char);
+        for (let col = 0; col < this.grid[0].length; col++){
+            if (this.grid[0][col] === 'S'){
+                this.q.add([0, col]);
+                break;
+            }
         }
     }
 
-    return grid;
+    displayGrid(): void {
+        console.log(this.grid);
+    }
+
+    countSplits(numSplits: {value: number}): number {
+
+        return 0;
+    }
 }
 
 function main(): void {
 
-    const data: string[] = fs.readFileSync('../data/input7.txt', 'utf8').split(/\r?\n/);
-    let grid: string[][] = buildGrid(data);
+    let grid: GridGraph = new GridGraph('../data/input7.txt', "\\r?\\n", true);
 
-    const result: {value: number} = {value: 0};
+    grid.displayGrid();
+    
+    // const result: {value: number} = {value: 0};
 
-    console.log(grid);
+    // console.log(grid);
 }
 
 main();
