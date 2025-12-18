@@ -24,7 +24,7 @@ class GridGraph extends Grid {
         console.log(this.grid);
     }
 
-    countSplits(isTimelineCount: boolean = false): number {
+    countSplits(): number {
 
         let numSplits: number = 0;
         let numTimelines: number = 0;
@@ -42,8 +42,7 @@ class GridGraph extends Grid {
                 
                 let currCell: string = this.getCell(x, y) as string; 
 
-
-                if (currCell === 'S' || currCell === '.' || currCell === '|'){          
+                if (currCell === 'S' || currCell === '.'){          
                     this.markCell(x, y, '|');
                     x++;
                 }
@@ -58,26 +57,8 @@ class GridGraph extends Grid {
                     endSearch = true;
                 }
             }
-
-            // if (x === this.getRows() && y >= 0 && y <= this.getCols() - 1){
-            //         numTimelines++;
-            //         this.markCell(x, y, 'x');
-
-            //         while (true){
-            //             let reverseCell: string = this.getCell(x - 1, y) as string; 
-
-            //             if (reverseCell === '|'){
-            //                 this.markCell(x - 1, y, 'x');
-            //             }
-            //             else if (reverseCell === '^'){
-                            
-            //             }
-
-            //         }
-            // }
         }
-
-        return isTimelineCount ? numTimelines : numSplits;
+        return numSplits;
     }
 }
 
@@ -85,7 +66,7 @@ function main(): void {
 
     let grid: GridGraph = new GridGraph('../data/input7.txt', "\\r?\\n", true);
 
-    console.log(grid.countSplits(true));
+    console.log(grid.countSplits());
 }
 
 main();
