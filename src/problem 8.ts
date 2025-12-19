@@ -19,3 +19,26 @@ class Point3D {
         return (Math.sqrt((Math.pow((this.x - point.x), 2)) + (Math.pow((this.y - point.y), 2)) + (Math.pow((this.z - point.z), 2))));
     }
 }
+
+function main(): void{ 
+    
+    let data = fs.readFileSync('../data/input8.txt', 'utf8').split(new RegExp("\\r?\\n")).map (line => line.trim());
+    let points: Point3D[] = [];
+
+
+    for (const line of data){
+        let coordinates: string[] = line.split(",");
+
+        if (coordinates.length !== 3){
+            console.log("File read failed");
+            return;
+        }
+        else {
+            points.push(new Point3D(Number(coordinates[0]), Number(coordinates[2]), Number(coordinates[2])));
+        }
+    }
+
+    console.log(points);
+}
+
+main();
