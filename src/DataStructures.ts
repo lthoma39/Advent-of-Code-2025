@@ -150,15 +150,27 @@ export class Grid implements IGrid{
 
 export class Queue<T> implements IQueue<T> {
 
-    constructor(private queue: T[] = []){}
+    constructor(public queue: T[] = [], private head: number = 0){
+        this.queue = [...queue];
+    }
 
     add(val: T): void { this.queue.push(val); }
 
     addAll(arr: T[]): void { arr.forEach(val => this.queue.push(val)); }
 
-    pop(): T | undefined { return this.queue.shift(); }
+    pop(): T | undefined { 
 
-    isEmpty(): boolean { return this.queue.length === 0; }
+        if (this.isEmpty()) return undefined; //checks if array is also full
+
+        let result: T = this.queue[this.head];
+
+        this.head++;
+
+        return result;
+
+    }
+
+    isEmpty(): boolean { return this.head  >=  this.queue.length; }
 }
 
 export type Node<T>  = { 

@@ -90,15 +90,20 @@ class Graph {
     private buildGraph(): void{
 
         let weightedNodes: PointPairs[] = this.sortJunctionBoxes();
+        let count: number = 0;
 
         for (const nodePair of weightedNodes){
-            let nodeA: Node<string> = nodePair.pointA;
-            let nodeB: Node<string> = nodePair.pointB;
+            if (count < 1000){
+                let nodeA: Node<string> = nodePair.pointA;
+                let nodeB: Node<string> = nodePair.pointB;
 
-            if (!this.contains(nodeA, nodeB)){
-                nodeA.neighbors.push(nodeB);
-                nodeB.neighbors.push(nodeA);
-            }
+                if (!this.contains(nodeA, nodeB)){
+                    nodeA.neighbors.push(nodeB);
+                    nodeB.neighbors.push(nodeA);
+                }
+
+                count++;
+            }   
         }
     }
 
@@ -152,7 +157,12 @@ class Graph {
                 results.push(result);
             }
         }
-        return results;
+        return results.sort(
+            (x: number, y: number) =>
+            {
+                return y - x;
+            }
+        );
     }
 }
 
@@ -161,7 +171,7 @@ function main(): void{
 
     let results = graph.countPathLengths();
 
-    console.log(results);
+    console.log(results[0]*results[1]*results[2]);
 }
 
 main();
