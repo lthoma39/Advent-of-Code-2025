@@ -150,7 +150,7 @@ export class Grid implements IGrid{
 
 export class Queue<T> implements IQueue<T> {
 
-    constructor(public queue: T[] = [], private head: number = 0){
+    constructor(private queue: T[] = [], private head: number = 0){
         this.queue = [...queue];
     }
 

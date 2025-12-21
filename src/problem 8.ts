@@ -90,20 +90,22 @@ class Graph {
     private buildGraph(): void{
 
         let weightedNodes: PointPairs[] = this.sortJunctionBoxes();
-        let count: number = 0;
+        let totalCircuits: number = this.junctionBoxes.length;
 
         for (const nodePair of weightedNodes){
-            if (count < 1000){
                 let nodeA: Node<string> = nodePair.pointA;
                 let nodeB: Node<string> = nodePair.pointB;
 
                 if (!this.contains(nodeA, nodeB)){
+                    totalCircuits--;
                     nodeA.neighbors.push(nodeB);
                     nodeB.neighbors.push(nodeA);
-                }
 
-                count++;
-            }   
+                    if (totalCircuits === 1){
+                        console.log(this.keyToCoordinates(nodeA.val).x * this.keyToCoordinates(nodeB.val).x);
+                        break;
+                    }
+                }
         }
     }
 
@@ -167,11 +169,8 @@ class Graph {
 }
 
 function main(): void{ 
+    
     let graph: Graph = new Graph(fs.readFileSync('../data/input8.txt', 'utf8').split(new RegExp("\\r?\\n")).map (line => line.trim()));
-
-    let results = graph.countPathLengths();
-
-    console.log(results[0]*results[1]*results[2]);
 }
 
 main();
