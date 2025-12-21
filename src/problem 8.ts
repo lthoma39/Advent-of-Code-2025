@@ -18,6 +18,7 @@ class Graph {
         this.visited = new Set<string>();
 
         this.buildJunctionBox(filepath);
+        this.buildGraph();
     }
 
     private coordinatesToString(x: number, y: number, z: number): string {
@@ -88,7 +89,7 @@ class Graph {
 
     private buildGraph(): void{
 
-        let weightedNodes: PointPairs[] = this.sortJunctionBoxes(); // <=====resume here 
+        let weightedNodes: PointPairs[] = this.sortJunctionBoxes();
 
         for (const nodePair of weightedNodes){
             let nodeA: Node<string> = nodePair.pointA;
@@ -98,7 +99,6 @@ class Graph {
                 nodeA.neighbors.push(nodeB);
                 nodeB.neighbors.push(nodeA);
             }
-
         }
     }
 
