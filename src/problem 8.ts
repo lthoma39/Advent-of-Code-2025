@@ -1,28 +1,14 @@
 import fs from 'fs';
-import { Queue } from './DataStructures';
+import { Queue, Node } from './DataStructures';
 
 type PointPairs = {
-    pointA: Node;
-    pointB: Node;
+    pointA: Node<string>;
+    pointB: Node<string>;
     distance: number;
 }
 
-class Node { 
-    public x: number;
-    public y: number;
-    public z: number;
-    public neighbors: Node[];
-
-    constructor(x: number, y: number, z: number){
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.neighbors = [];
-    }
-}
-
 class Graph {
-    private junctionBoxes: Node[];
+    private junctionBoxes: Node<string>[];
     private groups: number;
     private visited: Set<string>;
 
@@ -34,12 +20,24 @@ class Graph {
         this.buildJunctionBox(filepath);
     }
 
-    private convertToKey(n: Node): string {
-        return `${n.x},${n.y},${n.z}`;
+    private coordinatesToString(x: number, y: number, z: number): string {
+        return `${x},${y},${z}`;
     }
 
-    private euclideanDistance(nodeA: Node, nodeB: Node): number {
-        return (Math.sqrt((Math.pow((nodeA.x - nodeB.x), 2)) + (Math.pow((nodeA.y - nodeB.y), 2)) + (Math.pow((nodeA.z - nodeB.z), 2))));
+    private keyToCoordinates(key: string): {x: number, y: number, z: number} {
+        const [x, y, z] = key.split(',').map(Number);
+        return {
+            x: x,
+            y: y,
+            z: z,
+        };
+    }
+
+    private euclideanDistance(nodeA: Node<string>, nodeB: Node<string>): number {
+        const nodeAVal = this.keyToCoordinates(nodeA.val);
+        const nodeBVal = this.keyToCoordinates(nodeB.val);
+
+        return (Math.sqrt((Math.pow((nodeAVal.x - nodeBVal.x), 2)) + (Math.pow((nodeAVal.y - nodeBVal.y), 2)) + (Math.pow((nodeAVal.z - nodeBVal.z), 2))));
     }
 
     private buildJunctionBox (lines: String[]): void { 
@@ -51,7 +49,12 @@ class Graph {
                 return;
             }
             else {
-                this.junctionBoxes.push(new Node(Number(coordinates[0]), Number(coordinates[1]), Number(coordinates[2])));
+                this.junctionBoxes.push(
+                    {                       
+                        val: this.coordinatesToString(Number(coordinates[0]), Number(coordinates[1]), Number(coordinates[2])),
+                        neighbors: []
+                    }
+                );
             }
         }
     }
@@ -60,9 +63,9 @@ class Graph {
         let junctionDistance: PointPairs[] = [];
 
         for (let i = 0; i < this.junctionBoxes.length - 1; i++){
-            const pointA: Node = this.junctionBoxes[i];
+            const pointA: Node<string> = this.junctionBoxes[i];
             for (let j = i + 1; j < this.junctionBoxes.length; j++){
-                const pointB: Node = this.junctionBoxes[j];
+                const pointB: Node<string> = this.junctionBoxes[j];
 
                 junctionDistance.push(
                     { 
@@ -83,14 +86,73 @@ class Graph {
         return junctionDistance;
     }
 
-    private buildGraph(){
+    private buildGraph(): void{
 
-        let weightedNodes: PointPairs[] = this.sortJunctionBoxes();
+        let weightedNodes: PointPairs[] = this.sortJunctionBoxes(); // <=====resume here 
 
+        for (const nodePair of weightedNodes){
+            let nodeA: Node<string> = nodePair.pointA;
+            let nodeB: Node<string> = nodePair.pointB;
+
+            if (!this.contains(nodeA, nodeB)){
+                nodeA.neighbors.push(nodeB);
+                nodeB.neighbors.push(nodeA);
+            }
+
+        }
+    }
+
+    private contains(nodeA: Node<string>, targetNode: Node<string>): boolean {
+
+        let neighbors: Queue<Node<string>> = new Queue(nodeA.neighbors);
+        let hasVisited: Set<string> = new Set<string>();
+
+        hasVisited.add(nodeA.val);
+
+        while (!neighbors.isEmpty()){
+
+            let neighbor: Node<string> = neighbors.pop()!;
+
+            hasVisited.add(neighbor.val);
+
+            if (neighbor.val === targetNode.val) return true;
+
+            neighbor.neighbors.forEach(
+                (person) => {
+                    if (!hasVisited.has(person.val)){
+                        neighbors.add(person);
+                    }
+                }
+            );
+        }
+        return false;
     }
 
     public countPathLengths(): number[] {
-        return [];
+
+        let results: number[] = [];
+
+        for (const node of this.junctionBoxes){
+
+            if (!this.visited.has(node.val)){
+                let result: number = 1;
+                this.visited.add(node.val);
+                let neighbors: Queue<Node<string>> = new Queue(node.neighbors);
+
+                while (!neighbors.isEmpty()){
+                    let newNeighbor: Node<string> = neighbors.pop()!;
+
+                    if (this.visited.has(newNeighbor.val)) continue;
+
+                    this.visited.add(newNeighbor.val);
+                    neighbors.addAll(newNeighbor.neighbors.filter(node => !this.visited.has(node.val)));
+                    result++;
+                }
+
+                results.push(result);
+            }
+        }
+        return results;
     }
 }
 

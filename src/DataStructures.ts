@@ -154,7 +154,14 @@ export class Queue<T> implements IQueue<T> {
 
     add(val: T): void { this.queue.push(val); }
 
+    addAll(arr: T[]): void { arr.forEach(val => this.queue.push(val)); }
+
     pop(): T | undefined { return this.queue.shift(); }
 
     isEmpty(): boolean { return this.queue.length === 0; }
+}
+
+export type Node<T>  = { 
+    val: T;
+    neighbors: Node<T>[];
 }
