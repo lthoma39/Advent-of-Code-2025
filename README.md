@@ -1,22 +1,27 @@
-<img width="886" height="661" alt="image" src="https://github.com/user-attachments/assets/63f00c5e-a4f0-4370-a648-841fc491a1b9" />
+<h1>🎄 Advent of Code 2025</h1>
 
-<section>
-  <h2>🎄 Advent of Code</h2>
+<p>
+  <img
+    src="https://img.shields.io/badge/Progress-9.5%2F12-brightgreen"
+    alt="Progress Badge"
+  />
+  <img
+    src="https://img.shields.io/badge/Language-TypeScript-blue"
+    alt="Language Badge"
+  />
+</p>
 
-  <p>
-    <strong>Advent of Code</strong> is an annual programming challenge that takes
-    place every December. Each day from December 1st to 25th, a new puzzle is
-    released that focuses on problem-solving, algorithms, and data structures.
-  </p>
+<p>
+Advent of Code is an annual December coding event featuring daily programming puzzles that focus on problem-solving.
+Each challenge can be solved in any language and increases in complexity over time.
+</p>
 
-  <p>
-    The puzzles start simple and gradually increase in complexity, often
-    requiring careful reasoning, optimization, and clean code design. Solutions
-    can be written in <em>any programming language</em>.
-  </p>
+<h2>Progress</h2>
+<p><strong>9.5 / 12 days completed</strong></p>
 
-  <p>
-    This repository contains my personal solutions, notes, and experiments while
-    working through the challenges.
-  </p>
-</section>
+<img
+  width="886"
+  height="661"
+  alt="Advent of Code Progress"
+  src="https://github.com/user-attachments/assets/63f00c5e-a4f0-4370-a648-841fc491a1b9"
+/>
