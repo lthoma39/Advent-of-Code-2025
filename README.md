@@ -13,7 +13,7 @@
 
 <p>
 Advent of Code is an annual December coding event featuring daily programming puzzles that focus on problem-solving.
-Each challenge can be solved in any language and increases in complexity over time.
+Each challenge increases in complexity over time.
 </p>
 
 <h2>Progress</h2>
