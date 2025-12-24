@@ -2,7 +2,7 @@
 
 <p>
   <img
-    src="https://img.shields.io/badge/Progress-9.5%2F12-brightgreen"
+    src="https://img.shields.io/badge/Progress-11%2F12-brightgreen"
     alt="Progress Badge"
   />
   <img
@@ -17,11 +17,7 @@ Each challenge can be solved in any language and increases in complexity over ti
 </p>
 
 <h2>Progress</h2>
-<p><strong>9.5 / 12 days completed</strong></p>
+<p><strong>11 / 12 days completed</strong></p>
 
-<img
-  width="886"
-  height="661"
-  alt="Advent of Code Progress"
-  src="https://github.com/user-attachments/assets/63f00c5e-a4f0-4370-a648-841fc491a1b9"
-/>
+<img width="886" height="661" alt="image" src="https://github.com/user-attachments/assets/0c00b22a-8bd5-433f-8839-0524e60eb7c0" />
+
